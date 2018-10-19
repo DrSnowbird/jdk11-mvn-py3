@@ -13,7 +13,10 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+###################################
 #### Install Java 11
+###################################
+
 #### ---------------------------------------------------------------
 #### ---- Change below when upgrading version ----
 #### ---------------------------------------------------------------
@@ -53,7 +56,9 @@ RUN curl -sL --retry 3 --insecure \
   && ln -s $JAVA_HOME $INSTALL_DIR/java \
   && rm -rf $JAVA_HOME/man jdk-${UPDATE_VERSION}_linux-x64_bin.tar.gz
 
+###################################
 #### Install Maven 3
+###################################
 ENV MAVEN_VERSION 3.5.4
 ENV MAVEN_HOME /usr/apache-maven-$MAVEN_VERSION
 ENV PATH $PATH:$MAVEN_HOME/bin
@@ -63,7 +68,41 @@ RUN curl -sL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binarie
   | tar x -C /usr/ \
   && ln -s $MAVEN_HOME /usr/maven
 
-#### define working directory.
+###################################
+#### ---- Pip install packages ----
+###################################
+COPY requirements.txt ./
+
+## ---------------------------------------------------
+## Don't upgrade pip to 10.0.x version -- it's broken! 
+## Staying with version 8 to avoid the problem
+## ---------------------------------------------------
+
+RUN pip3 install -r ./requirements.txt && pip3 install --upgrade pip  
+
+###################################
+#### ---- Install Gradle       ----
+###################################
+ARG GRADLE_INSTALL_BASE=${GRADLE_INSTALL_BASE:-/opt/gradle}
+ARG GRADLE_VERSION=${GRADLE_VERSION:-4.9}
+
+ARG GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION}
+ENV GRADLE_HOME=${GRADLE_HOME}
+ARG GRADLE_PACKAGE=gradle-${GRADLE_VERSION}-bin.zip
+ARG GRADLE_PACKAGE_URL=https://services.gradle.org/distributions/${GRADLE_PACKAGE}
+# https://services.gradle.org/distributions/gradle-4.9-bin.zip
+RUN \
+    mkdir -p ${GRADLE_INSTALL_BASE} && \
+    cd ${GRADLE_INSTALL_BASE} && \
+    wget -c ${GRADLE_PACKAGE_URL} && \
+    unzip -d ${GRADLE_INSTALL_BASE} ${GRADLE_PACKAGE} && \
+    ls -al ${GRADLE_HOME} && \
+    ln -s ${GRADLE_HOME}/bin/gradle /usr/bin/gradle && \
+    ${GRADLE_HOME}/bin/gradle -v
+
+###################################
+#### ---- Working directory.   ----
+###################################
 RUN mkdir -p /data
 COPY . /data
 

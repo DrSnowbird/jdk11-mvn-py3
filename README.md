@@ -1,6 +1,10 @@
-# Java JDK 11 +  + Maven 3.5 + Python 3.5
+# Java JDK 11 + Maven 3.5 + Python 3.5 +  Gradle 4.10 
 
-##Components:
+# License Agreement
+By using this image, you agree the [Oracle Java JDK License](http://www.oracle.com/technetwork/java/javase/terms/license/index.html).
+This image contains [Oracle JDK 11](http://www.oracle.com/technetwork/java/javase/downloads/index.html). You must accept the [Oracle Binary Code License Agreement for Java SE](http://www.oracle.com/technetwork/java/javase/terms/license/index.html) to use this image.
+
+# Components:
 Components:
 * Oracle Java "11.0.1" JDK environment
   java 11.0.1 2018-10-16 LTS
@@ -9,21 +13,22 @@ Components:
 
 * Apache Maven 3.5.4
 * Python 3.5.3
+* Gradle 4.10
 * Other tools: git wget unzip vim python python-setuptools python-dev python-numpy 
 
-## Pull the image from Docker Repository
+# Pull the image from Docker Repository
 
 ```bash
 docker pull openkbs/jdk11-mvn-py3
 ```
 
-## Base the image to build add-on components
+# Base the image to build add-on components
 
 ```Dockerfile
 FROM openkbs/jdk11-mvn-py3
 ```
 
-## Run the image
+# Run the image
 
 Then, you're ready to run:
 - make sure you create your work directory, e.g., ./data
@@ -33,7 +38,7 @@ mkdir ./data
 docker run -d --name my-jdk11-mvn-py3 -v $PWD/data:/data -i -t openkbs/jdk11-mvn-py3
 ```
 
-## Build and Run your own image
+# Build and Run your own image
 Say, you will build the image "my/jdk11-mvn-py3".
 
 ```bash
@@ -47,13 +52,13 @@ mkdir ./data
 docker run -d --name some-jdk11-mvn-py3 -v $PWD/data:/data -i -t my/jdk11-mvn-py3
 ```
 
-## Shell into the Docker instance
+# Shell into the Docker instance
 
 ```bash
 docker exec -it some-jdk11-mvn-py3 /bin/bash
 ```
 
-## Run Python code
+# Run Python code
 
 To run Python code 
 
@@ -82,7 +87,7 @@ alias dpy3='docker run --rm openkbs/jdk11-mvn-py3 python3'
 dpy3 -c 'print("Hello World")'
 ```
 
-## Compile or Run java while no local installation needed
+# Compile or Run java while no local installation needed
 Remember, the default working directory, /data, inside the docker container -- treat is as "/".
 So, if you create subdirectory, "./data/workspace", in the host machine and 
 the docker container will have it as "/data/workspace".
@@ -132,6 +137,20 @@ OS name: "linux", version: "4.15.0-36-generic", arch: "amd64", family: "unix"
 Python 3.5.2
 Python 3.5.2
 pip 8.1.1 from /usr/lib/python3/dist-packages (python 3.5)
+------------------------------------------------------------
+Gradle 4.10
+------------------------------------------------------------
+
+Build time:   2018-08-27 18:35:06 UTC
+Revision:     ee3751ed9f2034effc1f0072c2b2ee74b5dce67d
+
+Kotlin DSL:   1.0-rc-3
+Kotlin:       1.2.60
+Groovy:       2.4.15
+Ant:          Apache Ant(TM) version 1.9.11 compiled on March 23 2018
+JVM:          11.0.1 (Oracle Corporation 11.0.1+13-LTS)
+OS:           Linux 4.15.0-36-generic amd64
+
 DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=16.04
 DISTRIB_CODENAME=xenial
@@ -147,4 +166,5 @@ SUPPORT_URL="http://help.ubuntu.com/"
 BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
 VERSION_CODENAME=xenial
 UBUNTU_CODENAME=xenial
+
 ```
