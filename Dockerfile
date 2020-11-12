@@ -1,114 +1,221 @@
-# use the latest LTS Ubuntu
-FROM ubuntu:xenial
+FROM ubuntu
 
-MAINTAINER DrSnowbird@openkbs.org
+MAINTAINER openkbs.org@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
-##### update ubuntu and Install Python 3
-RUN apt-get update \
-  && apt-get install -y automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev \
-  && apt-get install -y curl net-tools build-essential libsqlite3-dev sqlite3 bzip2 libbz2-dev git wget unzip vim python3-pip python3-setuptools python3-dev python3-numpy python3-scipy python3-pandas python3-matplotlib \
-  && ln -s /usr/bin/python3 /usr/bin/python \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+#ENV JAVA_VERSION=8
+ENV JAVA_VERSION=11
+
+##############################################
+#### ---- Installation Directories   ---- ####
+##############################################
+ENV INSTALL_DIR=${INSTALL_DIR:-/usr}
+ENV SCRIPT_DIR=${SCRIPT_DIR:-$INSTALL_DIR/scripts}
+
+##############################################
+#### ---- Corporate Proxy Auto Setup ---- ####
+##############################################
+#### ---- Transfer setup ---- ####
+COPY ./scripts ${SCRIPT_DIR}
+RUN chmod +x ${SCRIPT_DIR}/*.sh
+
+#### ---- Apt Proxy & NPM Proxy & NPM Permission setup if detected: ---- ####
+RUN cd ${SCRIPT_DIR}; ${SCRIPT_DIR}/setup_system_proxy.sh
+
+########################################
+#### update ubuntu and Install Python 3
+########################################
+RUN apt-get update -y && \
+    apt-get install -y apt-utils automake pkg-config libpcre3-dev zlib1g-dev liblzma-dev && \
+    apt-get install -y curl iputils-ping nmap net-tools build-essential software-properties-common libsqlite3-dev sqlite3 bzip2 libbz2-dev git wget unzip vim python3-pip python3-setuptools python3-dev python3-venv python3-numpy python3-scipy python3-pandas python3-matplotlib && \
+    apt-get install -y git xz-utils && \
+    apt-get install -y sudo && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+########################################
+#### ------- OpenJDK Installation ------
+########################################
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* && \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+# A few reasons for installing distribution-provided OpenJDK:
+#
+#  1. Oracle.  Licensing prevents us from redistributing the official JDK.
+#
+#  2. Compiling OpenJDK also requires the JDK to be installed, and it gets
+#     really hairy.
+#
+#     For some sample build times, see Debian's buildd logs:
+#       https://buildd.debian.org/status/logs.php?pkg=openjdk-8
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		bzip2 \
+		unzip \
+		xz-utils \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Default to UTF-8 file.encoding
+ENV LANG C.UTF-8
+
+# source: https://packages.debian.org/source/sid/openjdk-8
+# source: https://packages.debian.org/source/sid/openjdk-11
+## # ENV JAVA_DEBIAN_VERSION=8u222-b10-0ubuntu1.18.04.1-b10
+
+ENV JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+RUN set -ex; \
+	\
+# deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
+	if [ ! -d /usr/share/man/man1 ]; then \
+		mkdir -p /usr/share/man/man1; \
+	fi; \
+	\
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+#		openjdk-${JAVA_VERSION}-jdk="$JAVA_DEBIAN_VERSION" \
+		openjdk-${JAVA_VERSION}-jdk \
+	; \
+	rm -rf /var/lib/apt/lists/*; \
+	\
+# update-alternatives so that future installs of other OpenJDK versions don't change /usr/bin/java
+	update-alternatives --get-selections | awk -v home="$(readlink -f "$JAVA_HOME")" 'index($3, home) == 1 { $2 = "manual"; print | "update-alternatives --set-selections" }'; \
+# ... and verify that it actually worked for one of the alternatives we care about
+	update-alternatives --query java | grep -q 'Status: manual'
 
 ###################################
-#### Install Java 11
+#### ---- Install Maven 3 ---- ####
 ###################################
-
-#### ---------------------------------------------------------------
-#### ---- Change below when upgrading version ----
-#### ---------------------------------------------------------------
-# http://download.oracle.com/otn-pub/java/jdk/11.0.1+13/90cf5d8f270a4347a95050320eef3fb7/jdk-11.0.1_linux-x64_bin.tar.gz
-
-ARG JAVA_MAJOR_VERSION=${JAVA_MAJOR_VERSION:-11}
-ARG JAVA_UPDATE_VERSION=${JAVA_UPDATE_VERSION:-0.1}
-ARG JAVA_BUILD_NUMBER=${JAVA_BUILD_NUMBER:-13}
-ARG JAVA_TOKEN=${JAVA_TOKEN:-90cf5d8f270a4347a95050320eef3fb7}
-
-#### ---------------------------------------------------------------
-#### ---- Don't change below unless you know what you are doing ----
-#### ---------------------------------------------------------------
-ARG UPDATE_VERSION="${JAVA_MAJOR_VERSION}.${JAVA_UPDATE_VERSION}"
-ARG BUILD_VERSION=${JAVA_BUILD_NUMBER}
-
-ENV JAVA_HOME /usr/jdk-${JAVA_MAJOR_VERSION}.${JAVA_UPDATE_VERSION}
-ENV PATH $PATH:$JAVA_HOME/bin
-ENV INSTALL_DIR /usr
-
-## http://download.oracle.com/otn-pub/java/jdk/10.0.2+13/19aef61b38124481863b1413dce1855f/jdk-10.0.2_linux-x64_bin.tar.gz
-
-WORKDIR $INSTALL_DIR
-
-#RUN curl -sL --retry 3 --insecure \
-#  --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-#  "http://download.oracle.com/otn-pub/java/jdk/${UPDATE_VERSION}+${BUILD_VERSION}/${JAVA_TOKEN}/jdk-${UPDATE_VERSION}_linux_x64_bin.tar.gz" \
-#  | gunzip \
-#  | tar x -C /usr/ \
-#  && ln -s $JAVA_HOME $INSTALL_DIR/java \
-#  && rm -rf $JAVA_HOME/man
-
-RUN curl -sL --retry 3 --insecure \
-  --header "Cookie: oraclelicense=accept-securebackup-cookie;" \
-  "http://download.oracle.com/otn-pub/java/jdk/${UPDATE_VERSION}+${BUILD_VERSION}/${JAVA_TOKEN}/jdk-${UPDATE_VERSION}_linux-x64_bin.tar.gz" --output $INSTALL_DIR/jdk-${UPDATE_VERSION}_linux-x64_bin.tar.gz \
-  && tar xvf jdk-${UPDATE_VERSION}_linux-x64_bin.tar.gz \
-  && ln -s $JAVA_HOME $INSTALL_DIR/java \
-  && rm -rf $JAVA_HOME/man jdk-${UPDATE_VERSION}_linux-x64_bin.tar.gz
-
-###################################
-#### Install Maven 3
-###################################
-ENV MAVEN_VERSION 3.5.4
-ENV MAVEN_HOME /usr/apache-maven-$MAVEN_VERSION
-ENV PATH $PATH:$MAVEN_HOME/bin
-## http://mirrors.sorengard.com/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
-RUN curl -sL http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+ARG MAVEN_VERSION=${MAVEN_VERSION:-3.6.3}
+ENV MAVEN_VERSION=${MAVEN_VERSION}
+ENV MAVEN_HOME=/usr/apache-maven-${MAVEN_VERSION}
+ENV PATH=${PATH}:${MAVEN_HOME}/bin
+RUN curl -sL http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
   | gunzip \
   | tar x -C /usr/ \
-  && ln -s $MAVEN_HOME /usr/maven
+  && ln -s ${MAVEN_HOME} /usr/maven
 
-###################################
-#### ---- Pip install packages ----
-###################################
+########################################
+#### ---- PIP install packages ---- ####
+########################################
 COPY requirements.txt ./
 
-## ---------------------------------------------------
-## Don't upgrade pip to 10.0.x version -- it's broken! 
-## Staying with version 8 to avoid the problem
-## ---------------------------------------------------
+## -- if pkg-resources error occurs, then do this! -- ##
+# pip3 uninstall pkg-resources==0.0.0
+RUN pip3 --no-cache-dir install --upgrade pip 
+RUN pip3 --no-cache-dir install --ignore-installed -U -r requirements.txt
 
-RUN pip3 install -r ./requirements.txt && pip3 install --upgrade pip  
+## -- added Local PIP installation bin to PATH
+ENV PATH=${PATH}:${HOME}/.local/bin
+
+## VERSIONS ##
+ENV PATH=${PATH}:${JAVA_HOME}/bin
+
+RUN ln -s ${JAVA_HOME_ACTUAL} ${JAVA_HOME} && \
+    ls -al ${INSTALL_DIR} && \
+    echo "PATH=${PATH}" && export JAVA_HOME=${JAVA_HOME} && export PATH=$PATH && \
+    java -version && \
+    mvn --version && \
+    python3 -V && \
+    pip3 --version
 
 ###################################
-#### ---- Install Gradle       ----
+#### ---- Install Gradle ---- #####
 ###################################
+# Ref: https://gradle.org/releases/
+
 ARG GRADLE_INSTALL_BASE=${GRADLE_INSTALL_BASE:-/opt/gradle}
-ARG GRADLE_VERSION=${GRADLE_VERSION:-4.9}
+ARG GRADLE_VERSION=${GRADLE_VERSION:-6.7}
 
 ARG GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION}
 ENV GRADLE_HOME=${GRADLE_HOME}
 ARG GRADLE_PACKAGE=gradle-${GRADLE_VERSION}-bin.zip
 ARG GRADLE_PACKAGE_URL=https://services.gradle.org/distributions/${GRADLE_PACKAGE}
-# https://services.gradle.org/distributions/gradle-4.9-bin.zip
-RUN \
-    mkdir -p ${GRADLE_INSTALL_BASE} && \
+
+RUN mkdir -p ${GRADLE_INSTALL_BASE} && \
     cd ${GRADLE_INSTALL_BASE} && \
-    wget -c ${GRADLE_PACKAGE_URL} && \
+    wget -q --no-check-certificate -c ${GRADLE_PACKAGE_URL} && \
     unzip -d ${GRADLE_INSTALL_BASE} ${GRADLE_PACKAGE} && \
     ls -al ${GRADLE_HOME} && \
     ln -s ${GRADLE_HOME}/bin/gradle /usr/bin/gradle && \
-    ${GRADLE_HOME}/bin/gradle -v
+    ${GRADLE_HOME}/bin/gradle -v && \
+    rm -f ${GRADLE_PACKAGE}
+
+#########################################
+#### ---- Node from NODESOURCES ---- ####
+#########################################
+# Ref: https://github.com/nodesource/distributions
+ARG NODE_VERSION=${NODE_VERSION:-15}
+ENV NODE_VERSION=${NODE_VERSION}
+RUN apt-get update -y && \
+    apt-get install -y sudo curl git xz-utils && \
+    curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
+    apt-get install -y nodejs
+    
+RUN cd ${SCRIPT_DIR}; ${SCRIPT_DIR}/setup_npm_proxy.sh
 
 ###################################
-#### ---- Working directory.   ----
+#### ---- user: developer ---- ####
 ###################################
-RUN mkdir -p /data
-COPY . /data
+ENV USER_ID=${USER_ID:-1000}
+ENV GROUP_ID=${GROUP_ID:-1000}
+ENV USER=${USER:-developer}
+ENV HOME=/home/${USER}
 
-VOLUME "/data"
+## -- setup NodeJS user profile
+RUN groupadd ${USER} && useradd ${USER} -m -d ${HOME} -s /bin/bash -g ${USER} && \
+    ## -- Ubuntu -- \
+    usermod -aG sudo ${USER} && \
+    ## -- Centos -- \
+    #usermod -aG wheel ${USER} && \
+    echo "${USER} ALL=NOPASSWD:ALL" | tee -a /etc/sudoers && \
+    echo "USER =======> ${USER}" && ls -al ${HOME}
 
-WORKDIR /data
+##############################
+#### ---- NPM PREFIX ---- ####
+##############################
 
+#ENV NPM_CONFIG_PREFIX=${NPM_CONFIG_PREFIX:-${HOME}/.npm-global}
+#ENV PATH="${NPM_CONFIG_PREFIX}/bin:$PATH"
+#RUN mkdir -p ${NPM_CONFIG_PREFIX} ${HOME}/.config ${HOME}/.npm && \
+#    chown ${USER}:${USER} -R ${NPM_CONFIG_PREFIX} ${HOME}/.config ${HOME}/.npm && \
+#    export PATH=$PATH && ${SCRIPT_DIR}/install-npm-packages.sh
+
+###########################################
+#### ---- entrypoint script setup ---- ####
+###########################################
+RUN ln -s ${INSTALL_DIR}/scripts/docker-entrypoint.sh /docker-entrypoint.sh
+
+#############################################
+#### ---- USER as Owner for scripts ---- ####
+#############################################
+RUN chown ${USER}:${USER} -R ${INSTALL_DIR}/scripts /docker-entrypoint.sh
+
+############################################
+#### ---- Set up user environments ---- ####
+############################################
+ENV WORKSPACE=${HOME}/workspace
+ENV DATA=${HOME}/data
+USER ${USER}
+WORKDIR ${HOME}
+
+############################################
+#### ---- Volumes: data, workspace ---- ####
+############################################
+RUN mkdir -p ${WORKSPACE} ${DATA}
+COPY ./examples ${DATA}/examples
+VOLUME ${DATA}
+VOLUME ${WORKSPACE}
+
+#########################
+#### ---- Entry ---- ####
+#########################
+USER ${USER}
+WORKDIR ${HOME}
 #### Define default command.
+#ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/bin/bash"]
 
