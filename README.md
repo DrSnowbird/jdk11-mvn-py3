@@ -241,7 +241,7 @@ If you want to map to different directory for certificates, e.g., /home/develope
 
 # Releases information
 ```
-developer@fd50c3d500fe:~$ /usr/scripts/printVersions.sh 
+developer@f3173bea2700:~$ /usr/scripts/printVersions.sh 
 + echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 + whereis java
@@ -257,15 +257,15 @@ Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
 Maven home: /usr/apache-maven-3.6.3
 Java version: 11.0.9.1, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
 Default locale: en, platform encoding: UTF-8
-OS name: "linux", version: "5.4.0-54-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.8.0-41-generic", arch: "amd64", family: "unix"
 + python -V
 /usr/scripts/printVersions.sh: line 8: python: command not found
 + python3 -V
 Python 3.8.5
 + pip --version
-pip 20.2.4 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+pip 21.0.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 + pip3 --version
-pip 20.2.4 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+pip 21.0.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 + gradle --version
 
 Welcome to Gradle 6.7!
@@ -289,12 +289,12 @@ Kotlin:       1.3.72
 Groovy:       2.5.12
 Ant:          Apache Ant(TM) version 1.10.8 compiled on May 10 2020
 JVM:          11.0.9.1 (Ubuntu 11.0.9.1+1-Ubuntu-0ubuntu1.20.04)
-OS:           Linux 5.4.0-54-generic amd64
+OS:           Linux 5.8.0-41-generic amd64
 
 + npm -v
-7.0.8
+7.4.3
 + node -v
-v15.2.1
+v15.7.0
 + cat /etc/lsb-release /etc/os-release
 DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=20.04
@@ -316,7 +316,7 @@ UBUNTU_CODENAME=focal
 
 ## Python3 PIP Modules
 ```
-developer@94b0e5d67706:~$ pip freeze
+developer@6f369aab375e:~$ pip freeze
 appdirs==1.4.4
 argon2-cffi==20.1.0
 async-generator==1.10
@@ -324,10 +324,10 @@ atomicwrites==1.1.5
 attrs==20.3.0
 backcall==0.2.0
 beautifulsoup4==4.8.2
-bleach==3.2.1
-certifi==2020.11.8
-cffi==1.14.3
-chardet==3.0.4
+bleach==3.3.0
+certifi==2020.12.5
+cffi==1.14.4
+chardet==4.0.0
 cloudpickle==1.6.0
 cycler==0.10.0
 dbus-python==1.2.16
@@ -347,91 +347,93 @@ idna==2.10
 importlib-metadata==1.5.0
 iniconfig==1.1.1
 ipaddress==1.0.23
-ipykernel==5.3.4
-ipython==7.19.0
+ipykernel==5.4.3
+ipython==7.20.0
 ipython-genutils==0.2.0
-ipywidgets==7.5.1
+ipywidgets==7.6.3
 j2cli==0.3.10
 jdcal==1.0
-jedi==0.17.2
-Jinja2==2.11.2
-joblib==0.17.0
+jedi==0.18.0
+Jinja2==2.11.3
+joblib==1.0.0
 json-lines==0.5.0
 jsonschema==3.2.0
 jupyter==1.0.0
-jupyter-client==6.1.7
+jupyter-client==6.1.11
 jupyter-console==6.2.0
-jupyter-core==4.6.3
+jupyter-core==4.7.1
 jupyterlab-pygments==0.1.2
+jupyterlab-widgets==1.0.0
 kiwisolver==1.3.1
 lxml==4.5.0
 MarkupSafe==1.1.1
-matplotlib==3.3.3
+matplotlib==3.3.4
 mistune==0.8.4
 more-itertools==4.2.0
 nbclient==0.5.1
 nbconvert==6.0.7
-nbformat==5.0.8
-nest-asyncio==1.4.3
+nbformat==5.1.2
+nest-asyncio==1.5.1
 networkx==2.5
-notebook==6.1.5
-numexpr==2.7.1
-numpy==1.19.4
+notebook==6.2.0
+numexpr==2.7.2
+numpy==1.20.0
 olefile==0.46
 openpyxl==3.0.3
-packaging==20.4
+packaging==20.9
 panda==0.3.1
-pandas==1.1.4
+pandas==1.2.1
 pandasql==0.7.3
 pandocfilters==1.4.3
-parso==0.7.1
+parso==0.8.1
 pbr==5.5.1
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==8.0.1
+Pillow==8.1.0
 pkgconfig==1.5.1
 pluggy==0.13.1
-prometheus-client==0.8.0
-prompt-toolkit==3.0.8
-ptyprocess==0.6.0
-py==1.9.0
+prometheus-client==0.9.0
+prompt-toolkit==3.0.14
+ptyprocess==0.7.0
+py==1.10.0
 pycparser==2.20
-Pygments==2.7.2
+Pygments==2.7.4
 PyGObject==3.36.0
 pyLDAvis==2.1.2
 pyparsing==2.4.7
 pyrsistent==0.17.3
-pytest==6.1.2
-python-apt==2.0.0+ubuntu0.20.4.1
+PySocks==1.7.1
+pytest==6.2.2
+python-apt==2.0.0+ubuntu0.20.4.4
 python-dateutil==2.8.1
 python-git==2018.2.1
-pytz==2020.4
-PyYAML==5.3.1
-pyzmq==19.0.2
-qtconsole==4.7.7
+pytz==2021.1
+PyYAML==3.11
+pyzmq==22.0.2
+qtconsole==5.0.2
 QtPy==1.9.0
-requests==2.25.0
+requests==2.25.1
 requests-toolbelt==0.9.1
 requests-unixsocket==0.2.0
-scikit-learn==0.23.2
-scipy==1.5.4
-seaborn==0.11.0
+scikit-learn==0.24.1
+scipy==1.6.0
+seaborn==0.11.1
 Send2Trash==1.5.0
 six==1.15.0
 soupsieve==1.9.5
-SQLAlchemy==1.3.20
-stevedore==3.2.2
+SQLAlchemy==1.3.23
+stevedore==3.3.0
 tables==3.6.1
-terminado==0.9.1
+terminado==0.9.2
 testpath==0.4.4
 threadpoolctl==2.1.0
 toml==0.10.2
 tornado==6.1
-tqdm==4.51.0
+tqdm==4.56.0
 traitlets==5.0.5
 unattended-upgrades==0.1
-urllib3==1.26.1
-virtualenv==20.1.0
+urllib3==1.26.3
+virtualenv==20.4.2
 virtualenv-clone==0.5.4
 virtualenvwrapper==4.8.4
 wcwidth==0.2.5
@@ -439,6 +441,6 @@ webencodings==0.5.1
 widgetsnbextension==3.5.1
 xlrd==1.1.0
 xlwt==1.3.0
-yml2json==1.1.3
+yml2json==1.0.1
 zipp==1.0.0
 ```
