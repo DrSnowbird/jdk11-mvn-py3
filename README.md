@@ -1,4 +1,4 @@
-# OpenJDK Java 11 + Maven 3.6 + Python 3.8  + pip 20 + node 15 + npm 6 + Gradle 6
+# OpenJDK Java 11 + Maven 3.6 + Python 3.8  + pip 21 + node 15 + npm 7 + Gradle 6
 
 [![](https://images.microbadger.com/badges/image/openkbs/jdk-mvn-py3.svg)](https://microbadger.com/images/openkbs/jdk-mvn-py3 "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/openkbs/jdk-mvn-py3.svg)](https://microbadger.com/images/openkbs/jdk-mvn-py3 "Get your own version badge on microbadger.com")
 
@@ -27,11 +27,11 @@ After that, combining with other Docker security practice (see below references)
 # Components
 * Ubuntu 20.04 LTS now as LTS Docker base image.
 
-* openjdk version "11.0.9.1" 2020-11-04
-  OpenJDK Runtime Environment (build 11.0.9.1+1-Ubuntu-0ubuntu1.20.04)
-  OpenJDK 64-Bit Server VM (build 11.0.9.1+1-Ubuntu-0ubuntu1.20.04, mixed mode, sharing)
+* openjdk version "11.0.11" 2021-04-20
+  OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.20.04)
+  OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
 * Apache Maven 3.6
-* Python 3.6 + pip 20.2 + Python 3 virtual environments (venv, virtualenv, virtualenvwrapper, mkvirtualenv, ..., etc.)
+* Python 3.8 + pip 21.1 + Python 3 virtual environments (venv, virtualenv, virtualenvwrapper, mkvirtualenv, ..., etc.)
 * Node v15 + npm 7 (from NodeSource official Node Distribution)
 * Gradle 6
 * Other tools: git wget unzip vim python python-setuptools python-dev python-numpy, ..., etc.
@@ -241,7 +241,7 @@ If you want to map to different directory for certificates, e.g., /home/develope
 
 # Releases information
 ```
-developer@f3173bea2700:~$ /usr/scripts/printVersions.sh 
+developer@2f3a6f46b587:~$ /usr/scripts/printVersions.sh 
 + echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 + whereis java
@@ -249,23 +249,23 @@ java: /usr/bin/java /usr/share/java /usr/lib/jvm/java-11-openjdk-amd64/bin/java 
 + echo
 
 + java -version
-openjdk version "11.0.9.1" 2020-11-04
-OpenJDK Runtime Environment (build 11.0.9.1+1-Ubuntu-0ubuntu1.20.04)
-OpenJDK 64-Bit Server VM (build 11.0.9.1+1-Ubuntu-0ubuntu1.20.04, mixed mode, sharing)
+openjdk version "11.0.11" 2021-04-20
+OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.20.04)
+OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
 + mvn --version
 Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
 Maven home: /usr/apache-maven-3.6.3
-Java version: 11.0.9.1, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+Java version: 11.0.11, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
 Default locale: en, platform encoding: UTF-8
-OS name: "linux", version: "5.8.0-41-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.8.0-55-generic", arch: "amd64", family: "unix"
 + python -V
 /usr/scripts/printVersions.sh: line 8: python: command not found
 + python3 -V
 Python 3.8.5
 + pip --version
-pip 21.0.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+pip 21.1.2 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 + pip3 --version
-pip 21.0.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+pip 21.1.2 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 + gradle --version
 
 Welcome to Gradle 6.7!
@@ -288,13 +288,13 @@ Revision:     312ba9e0f4f8a02d01854d1ed743b79ed996dfd3
 Kotlin:       1.3.72
 Groovy:       2.5.12
 Ant:          Apache Ant(TM) version 1.10.8 compiled on May 10 2020
-JVM:          11.0.9.1 (Ubuntu 11.0.9.1+1-Ubuntu-0ubuntu1.20.04)
-OS:           Linux 5.8.0-41-generic amd64
+JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.04)
+OS:           Linux 5.8.0-55-generic amd64
 
 + npm -v
-7.4.3
+7.7.6
 + node -v
-v15.7.0
+v15.14.0
 + cat /etc/lsb-release /etc/os-release
 DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=20.04
