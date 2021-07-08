@@ -1,6 +1,6 @@
-FROM ubuntu
+FROM ubuntu:20.04
 
-MAINTAINER openkbs.org@gmail.com
+MAINTAINER DrSnowbird "DrSnowbird@openkbs.org"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -21,7 +21,7 @@ COPY ./scripts ${SCRIPT_DIR}
 RUN chmod +x ${SCRIPT_DIR}/*.sh
 
 #### ---- Apt Proxy & NPM Proxy & NPM Permission setup if detected: ---- ####
-RUN cd ${SCRIPT_DIR}; ${SCRIPT_DIR}/setup_system_proxy.sh
+#RUN cd ${SCRIPT_DIR}; ${SCRIPT_DIR}/setup_system_proxy.sh
 
 ########################################
 #### update ubuntu and Install Python 3
@@ -148,7 +148,7 @@ RUN mkdir -p ${GRADLE_INSTALL_BASE} && \
 #### ---- Node from NODESOURCES ---- ####
 #########################################
 # Ref: https://github.com/nodesource/distributions
-ARG NODE_VERSION=${NODE_VERSION:-15}
+ARG NODE_VERSION=${NODE_VERSION:-16}
 ENV NODE_VERSION=${NODE_VERSION}
 RUN apt-get update -y && \
     apt-get install -y sudo curl git xz-utils && \
@@ -209,6 +209,11 @@ RUN mkdir -p ${WORKSPACE} ${DATA}
 COPY ./examples ${DATA}/examples
 VOLUME ${DATA}
 VOLUME ${WORKSPACE}
+
+############################################
+#### ---- NPM: websocket           ---- ####
+############################################
+RUN npm install websocket ws
 
 #########################
 #### ---- Entry ---- ####
