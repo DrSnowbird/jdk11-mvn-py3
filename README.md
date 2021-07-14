@@ -241,7 +241,7 @@ If you want to map to different directory for certificates, e.g., /home/develope
 
 # Releases information
 ```
-developer@2f3a6f46b587:~$ /usr/scripts/printVersions.sh 
+developer@6a5c3c02fb3a:~$ /usr/scripts/printVersions.sh 
 + echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 + whereis java
@@ -257,15 +257,15 @@ Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
 Maven home: /usr/apache-maven-3.6.3
 Java version: 11.0.11, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
 Default locale: en, platform encoding: UTF-8
-OS name: "linux", version: "5.8.0-55-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.8.0-59-generic", arch: "amd64", family: "unix"
 + python -V
 /usr/scripts/printVersions.sh: line 8: python: command not found
 + python3 -V
-Python 3.8.5
+Python 3.8.10
 + pip --version
-pip 21.1.2 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+pip 21.1.3 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 + pip3 --version
-pip 21.1.2 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+pip 21.1.3 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 + gradle --version
 
 Welcome to Gradle 6.7!
@@ -289,22 +289,22 @@ Kotlin:       1.3.72
 Groovy:       2.5.12
 Ant:          Apache Ant(TM) version 1.10.8 compiled on May 10 2020
 JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.04)
-OS:           Linux 5.8.0-55-generic amd64
+OS:           Linux 5.8.0-59-generic amd64
 
 + npm -v
-7.7.6
+7.18.1
 + node -v
-v15.14.0
+v16.4.1
 + cat /etc/lsb-release /etc/os-release
 DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=20.04
 DISTRIB_CODENAME=focal
-DISTRIB_DESCRIPTION="Ubuntu 20.04.1 LTS"
+DISTRIB_DESCRIPTION="Ubuntu 20.04.2 LTS"
 NAME="Ubuntu"
-VERSION="20.04.1 LTS (Focal Fossa)"
+VERSION="20.04.2 LTS (Focal Fossa)"
 ID=ubuntu
 ID_LIKE=debian
-PRETTY_NAME="Ubuntu 20.04.1 LTS"
+PRETTY_NAME="Ubuntu 20.04.2 LTS"
 VERSION_ID="20.04"
 HOME_URL="https://www.ubuntu.com/"
 SUPPORT_URL="https://help.ubuntu.com/"
