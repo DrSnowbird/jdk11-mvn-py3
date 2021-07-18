@@ -1,4 +1,4 @@
-# OpenJDK Java 11 + Maven 3.6 + Python 3.8  + pip 21 + node 15 + npm 7 + Gradle 6
+# OpenJDK Java 11 + Maven 3.6 + Python 3.8  + pip 21 + node 16 + npm 7 + Gradle 6
 
 [![](https://images.microbadger.com/badges/image/openkbs/jdk-mvn-py3.svg)](https://microbadger.com/images/openkbs/jdk-mvn-py3 "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/openkbs/jdk-mvn-py3.svg)](https://microbadger.com/images/openkbs/jdk-mvn-py3 "Get your own version badge on microbadger.com")
 
@@ -32,7 +32,7 @@ After that, combining with other Docker security practice (see below references)
   OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
 * Apache Maven 3.6
 * Python 3.8 + pip 21.1 + Python 3 virtual environments (venv, virtualenv, virtualenvwrapper, mkvirtualenv, ..., etc.)
-* Node v15 + npm 7 (from NodeSource official Node Distribution)
+* Node v16 + npm 7 (from NodeSource official Node Distribution)
 * Gradle 6
 * Other tools: git wget unzip vim python python-setuptools python-dev python-numpy, ..., etc.
 * [See Releases Information](https://github.com/DrSnowbird/jdk-mvn-py3/blob/master/README.md#Releases-information)
@@ -241,7 +241,7 @@ If you want to map to different directory for certificates, e.g., /home/develope
 
 # Releases information
 ```
-developer@6a5c3c02fb3a:~$ /usr/scripts/printVersions.sh 
+developer@8ed21b5dc528:~$ /usr/scripts/printVersions.sh 
 + echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 + whereis java
@@ -292,7 +292,7 @@ JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.04)
 OS:           Linux 5.8.0-59-generic amd64
 
 + npm -v
-7.18.1
+7.20.0
 + node -v
 v16.4.1
 + cat /etc/lsb-release /etc/os-release
