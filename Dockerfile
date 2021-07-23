@@ -193,7 +193,8 @@ RUN groupadd ${USER} && useradd ${USER} -m -d ${HOME} -s /bin/bash -g ${USER} &&
 ###########################################
 #### ---- entrypoint script setup ---- ####
 ###########################################
-RUN ln -s ${INSTALL_DIR}/scripts/docker-entrypoint.sh /docker-entrypoint.sh
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 #############################################
 #### ---- USER as Owner for scripts ---- ####
@@ -227,6 +228,6 @@ RUN npm install websocket ws
 USER ${USER}
 WORKDIR ${HOME}
 #### Define default command.
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
 

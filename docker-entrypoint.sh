@@ -1,49 +1,26 @@
-#!/bin/bash
+#!/bin/bash -x
 
 set -e
 
-env
+whoami
 
-#### ---- Make sure to provide Non-root user for launching Docker ----
-#### ---- Default, we use base images's "developer"               ----
-NON_ROOT_USER=${NON_ROOT_USER:-"developer"}
+env | sort
+
+echo "Inputs: $*"
 
 #### ------------------------------------------------------------------------
-#### ---- You need to set PRODUCT_EXE as the full-path executable binary ----
+#### ---- Extra line added in the script to run all command line arguments
+#### ---- To keep the docker process staying alive if needed.
 #### ------------------------------------------------------------------------
-echo "Starting docker process daemon ..."
-if [ "${PRODUCT_EXE}" == "" ]; then
-    PRODUCT_EXE=${PRODUCT_EXE:-echo Hello}
-    #/bin/bash -c "${PRODUCT_EXE:-echo Hello}"
-    /usr/scripts/printVersions.sh
-    /bin/bash 
+set -v
+if [ $# -gt 0 ]; then
+
+    #### 1.) Setup needed stuffs, e.g., init db etc. ....
+    #### (do something here for preparation)
+    exec "$@"
+
 else
-    #### ------------------------------------------------------------------------
-    #### ---- Extra line added in the script to run all command line arguments
-    #### ---- To keep the docker process staying alive if needed.
-    #### ------------------------------------------------------------------------
-
-    if [ $# -gt 0 ]; then
-        #### **** Allow non-root users to bind to use lower than 1000 ports **** ####
-        USE_CAP_NET_BIND=${USE_CAP_NET_BIND:-0}
-        if [ ${USE_CAP_NET_BIND} -gt 0 ]; then
-            sudo setcap 'cap_net_bind_service=+ep' ${PRODUCT_EXE}
-        fi
-
-        #### 1.) Setup needed stuffs, e.g., init db etc. ....
-        #### (do something here for preparation)
-        
-        #### 2.A) As Root User -- Choose this or 2.B --####
-        #### ---- Use this when running Root user ---- ####
-        exec "$@"
-        #/bin/bash -c "$@"
-        
-        #### 2.B) As Non-Root User -- Choose this or 2.A  ---- #### 
-        #### ---- Use this when running Non-Root user ---- ####
-        #### ---- Use gosu (or su-exec) to drop to a non-root user
-        #exec gosu ${NON_ROOT_USER} ${PRODUCT_EXE} "$@"
-    else
-        exec "${PRODUCT_EXE}";
-    fi
+    /bin/bash
 fi
 
+#tail -f /dev/null
