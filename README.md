@@ -4,6 +4,8 @@
 
 # ** This build is based upon Ubuntu 20.04 + OpenJDK Java 11 **
 
+# ** Currently Docker Hub not allowing for free hosting for Docker images: Please run ./build.sh first by yourself locally **
+
 # NOTICE: ''Change to use Non-Root implementation''
 This new release is designed to support the deployment for Non-Root child images implementations and deployments to platform such as OpenShift or RedHat host operating system which requiring special policy to deploy. And, for better security practice, we decided to migrate (eventaully) our Docker containers to use Non-Root implementation. 
 Here are some of the things you can do if your images requiring "Root" acccess - you `really` want to do it:
@@ -55,6 +57,7 @@ After that, combining with other Docker security practice (see below references)
 
 # Default Run (test) - Just entering Container
 ```
+./build.sh or 'make build'
 ./run.sh
 ```
 
