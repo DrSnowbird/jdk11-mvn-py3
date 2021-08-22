@@ -41,11 +41,11 @@ RUN_TYPE=${RUN_TYPE:-0}
 
 ## ------------------------------------------------------------------------
 ## -- Container 'hostname' use: 
-## -- Default= 1 (use HOST_IP)
+## -- Default= 2 (use HOST_IP)
 ## -- 1: HOST_IP
 ## -- 2: HOST_NAME
 ## ------------------------------------------------------------------------
-HOST_USE_IP_OR_NAME=${HOST_USE_IP_OR_NAME:-1}
+HOST_USE_IP_OR_NAME=${HOST_USE_IP_OR_NAME:-2}
 
 ########################################
 #### ---- NVIDIA GPU Checking: ---- ####
