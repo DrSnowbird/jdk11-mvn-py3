@@ -68,7 +68,6 @@ ENV LANG C.UTF-8
 
 # source: https://packages.debian.org/source/sid/openjdk-8
 # source: https://packages.debian.org/source/sid/openjdk-11
-## # ENV JAVA_DEBIAN_VERSION=8u222-b10-0ubuntu1.18.04.1-b10
 
 ENV JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
@@ -95,7 +94,7 @@ RUN set -ex; \
 ###################################
 #### ---- Install Maven 3 ---- ####
 ###################################
-ARG MAVEN_VERSION=${MAVEN_VERSION:-3.6.3}
+ARG MAVEN_VERSION=${MAVEN_VERSION:-3.8.2}
 ENV MAVEN_VERSION=${MAVEN_VERSION}
 ENV MAVEN_HOME=/usr/apache-maven-${MAVEN_VERSION}
 ENV PATH=${PATH}:${MAVEN_HOME}/bin
@@ -134,7 +133,7 @@ RUN ln -s ${JAVA_HOME_ACTUAL} ${JAVA_HOME} && \
 # Ref: https://gradle.org/releases/
 
 ARG GRADLE_INSTALL_BASE=${GRADLE_INSTALL_BASE:-/opt/gradle}
-ARG GRADLE_VERSION=${GRADLE_VERSION:-6.7}
+ARG GRADLE_VERSION=${GRADLE_VERSION:-7.0}
 
 ARG GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION}
 ENV GRADLE_HOME=${GRADLE_HOME}

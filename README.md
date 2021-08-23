@@ -1,4 +1,4 @@
-# OpenJDK Java 11 + Maven 3.6 + Python 3.8  + pip 21 + node 16 + npm 7 + Gradle 6
+# OpenJDK Java 11 + Maven 3.8 + Python 3.8  + pip 21 + node 16 + npm 7 + Gradle 7
 
 [![](https://images.microbadger.com/badges/image/openkbs/jdk-mvn-py3.svg)](https://microbadger.com/images/openkbs/jdk-mvn-py3 "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/openkbs/jdk-mvn-py3.svg)](https://microbadger.com/images/openkbs/jdk-mvn-py3 "Get your own version badge on microbadger.com")
 
@@ -32,10 +32,10 @@ After that, combining with other Docker security practice (see below references)
 * openjdk version "11.0.11" 2021-04-20
   OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.20.04)
   OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
-* Apache Maven 3.6
+* Apache Maven 3.8
 * Python 3.8 + pip 21.2 + Python 3 virtual environments (venv, virtualenv, virtualenvwrapper, mkvirtualenv, ..., etc.)
 * Node v16 + npm 7 (from NodeSource official Node Distribution)
-* Gradle 6
+* Gradle 7
 * Other tools: git wget unzip vim python python-setuptools python-dev python-numpy, ..., etc.
 * [See Releases Information](https://github.com/DrSnowbird/jdk-mvn-py3/blob/master/README.md#Releases-information)
 
@@ -256,8 +256,8 @@ openjdk version "11.0.11" 2021-04-20
 OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.20.04)
 OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
 + mvn --version
-Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
-Maven home: /usr/apache-maven-3.6.3
+Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)
+Maven home: /usr/apache-maven-3.8.2
 Java version: 11.0.11, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
 Default locale: en, platform encoding: UTF-8
 OS name: "linux", version: "5.11.0-27-generic", arch: "amd64", family: "unix"
@@ -271,26 +271,27 @@ pip 21.2.4 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 pip 21.2.4 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
 + gradle --version
 
-Welcome to Gradle 6.7!
+Welcome to Gradle 7.0!
 
 Here are the highlights of this release:
- - File system watching is ready for production use
- - Declare the version of Java your build requires
- - Java 15 support
+ - File system watching enabled by default
+ - Support for running with and building Java 16 projects
+ - Native support for Apple Silicon processors
+ - Dependency catalog feature preview
 
-For more details see https://docs.gradle.org/6.7/release-notes.html
+For more details see https://docs.gradle.org/7.0/release-notes.html
 
 
 ------------------------------------------------------------
-Gradle 6.7
+Gradle 7.0
 ------------------------------------------------------------
 
-Build time:   2020-10-14 16:13:12 UTC
-Revision:     312ba9e0f4f8a02d01854d1ed743b79ed996dfd3
+Build time:   2021-04-09 22:27:31 UTC
+Revision:     d5661e3f0e07a8caff705f1badf79fb5df8022c4
 
-Kotlin:       1.3.72
-Groovy:       2.5.12
-Ant:          Apache Ant(TM) version 1.10.8 compiled on May 10 2020
+Kotlin:       1.4.31
+Groovy:       3.0.7
+Ant:          Apache Ant(TM) version 1.10.9 compiled on September 27 2020
 JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.04)
 OS:           Linux 5.11.0-27-generic amd64
 
@@ -435,7 +436,7 @@ terminado==0.11.1
 testpath==0.5.0
 threadpoolctl==2.2.0
 tornado==6.1
-tqdm==4.62.1
+tqdm==4.62.2
 traitlets==5.0.5
 unattended-upgrades==0.1
 urllib3==1.26.6
