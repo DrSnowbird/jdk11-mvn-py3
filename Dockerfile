@@ -4,6 +4,12 @@ MAINTAINER DrSnowbird "DrSnowbird@openkbs.org"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+#### ---------------------
+#### ---- USER, GROUP ----
+#### ---------------------
+ENV USER_ID=${USER_ID:-1000}
+ENV GROUP_ID=${GROUP_ID:-1000}
+
 #ENV JAVA_VERSION=8
 ENV JAVA_VERSION=11
 
@@ -66,29 +72,32 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
 
-# source: https://packages.debian.org/source/sid/openjdk-8
-# source: https://packages.debian.org/source/sid/openjdk-11
-
 ENV JAVA_HOME=/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
-RUN set -ex; \
-	\
-# deal with slim variants not having man page directories (which causes "update-alternatives" to fail)
-	if [ ! -d /usr/share/man/man1 ]; then \
-		mkdir -p /usr/share/man/man1; \
-	fi; \
-	\
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-#		openjdk-${JAVA_VERSION}-jdk="$JAVA_DEBIAN_VERSION" \
-		openjdk-${JAVA_VERSION}-jdk \
-	; \
-	rm -rf /var/lib/apt/lists/*; \
-	\
+# ------------------
+# OpenJDK Java:
+# ------------------
+
+
+ARG OPENJDK_PACKAGE=${OPENJDK_PACKAGE:-openjdk-${JAVA_VERSION}-jdk}
+
+# -- To install JDK Source (src.zip), uncomment the line below: --
+#ARG OPENJDK_SRC=${OPENJDK_SRC:-openjdk-${JAVA_VERSION}-source}
+
+ARG OPENJDK_INSTALL_LIST="${OPENJDK_PACKAGE} ${OPENJDK_SRC}"
+
+RUN apt-get update -y && \
+    apt-get install -y ${OPENJDK_INSTALL_LIST} && \
+    ls -al ${INSTALL_DIR} ${JAVA_HOME} && \
+    export PATH=$PATH ; echo "PATH=${PATH}" ; export JAVA_HOME=${JAVA_HOME} ; echo "java=`which java`" && \
+    rm -rf /var/lib/apt/lists/*
+
+# ------------------------------------------------------------------------------------------------
 # update-alternatives so that future installs of other OpenJDK versions don't change /usr/bin/java
-	update-alternatives --get-selections | awk -v home="$(readlink -f "$JAVA_HOME")" 'index($3, home) == 1 { $2 = "manual"; print | "update-alternatives --set-selections" }'; \
 # ... and verify that it actually worked for one of the alternatives we care about
+# ------------------------------------------------------------------------------------------------
+RUN update-alternatives --get-selections | awk -v home="$(readlink -f "$JAVA_HOME")" 'index($3, home) == 1 { $2 = "manual"; print | "update-alternatives --set-selections" }'; \
 	update-alternatives --query java | grep -q 'Status: manual'
 
 ###################################
@@ -108,10 +117,9 @@ RUN curl -sL http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binar
 ########################################
 COPY requirements.txt ./
 
-## -- if pkg-resources error occurs, then do this! -- ##
 # pip3 uninstall pkg-resources==0.0.0
-RUN pip3 --no-cache-dir install --upgrade pip 
-RUN pip3 --no-cache-dir install --ignore-installed -U -r requirements.txt
+RUN python3 -m pip install --upgrade pip && \
+    python3 -m pip --no-cache-dir install --ignore-installed -U -r requirements.txt
 
 ## -- added Local PIP installation bin to PATH
 ENV PATH=${PATH}:${HOME}/.local/bin
@@ -119,11 +127,7 @@ ENV PATH=${PATH}:${HOME}/.local/bin
 ## VERSIONS ##
 ENV PATH=${PATH}:${JAVA_HOME}/bin
 
-RUN ln -s ${JAVA_HOME_ACTUAL} ${JAVA_HOME} && \
-    ls -al ${INSTALL_DIR} && \
-    echo "PATH=${PATH}" && export JAVA_HOME=${JAVA_HOME} && export PATH=$PATH && \
-    java -version && \
-    mvn --version && \
+RUN mvn --version && \
     python3 -V && \
     pip3 --version
 
@@ -133,7 +137,7 @@ RUN ln -s ${JAVA_HOME_ACTUAL} ${JAVA_HOME} && \
 # Ref: https://gradle.org/releases/
 
 ARG GRADLE_INSTALL_BASE=${GRADLE_INSTALL_BASE:-/opt/gradle}
-ARG GRADLE_VERSION=${GRADLE_VERSION:-7.0}
+ARG GRADLE_VERSION=${GRADLE_VERSION:-7.1}
 
 ARG GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION}
 ENV GRADLE_HOME=${GRADLE_HOME}
@@ -179,16 +183,6 @@ RUN groupadd ${USER} && useradd ${USER} -m -d ${HOME} -s /bin/bash -g ${USER} &&
     echo "${USER} ALL=NOPASSWD:ALL" | tee -a /etc/sudoers && \
     echo "USER =======> ${USER}" && ls -al ${HOME}
 
-##############################
-#### ---- NPM PREFIX ---- ####
-##############################
-
-#ENV NPM_CONFIG_PREFIX=${NPM_CONFIG_PREFIX:-${HOME}/.npm-global}
-#ENV PATH="${NPM_CONFIG_PREFIX}/bin:$PATH"
-#RUN mkdir -p ${NPM_CONFIG_PREFIX} ${HOME}/.config ${HOME}/.npm && \
-#    chown ${USER}:${USER} -R ${NPM_CONFIG_PREFIX} ${HOME}/.config ${HOME}/.npm && \
-#    export PATH=$PATH && ${SCRIPT_DIR}/install-npm-packages.sh
-
 ###########################################
 #### ---- entrypoint script setup ---- ####
 ###########################################
@@ -205,7 +199,7 @@ RUN chown ${USER}:${USER} -R ${INSTALL_DIR}/scripts /docker-entrypoint.sh
 ############################################
 ENV WORKSPACE=${HOME}/workspace
 ENV DATA=${HOME}/data
-USER ${USER}
+
 WORKDIR ${HOME}
 
 ############################################
@@ -213,6 +207,8 @@ WORKDIR ${HOME}
 ############################################
 RUN mkdir -p ${WORKSPACE} ${DATA}
 COPY ./examples ${DATA}/examples
+RUN chown ${USER}:${USER} -R  ${DATA}
+
 VOLUME ${DATA}
 VOLUME ${WORKSPACE}
 
@@ -227,6 +223,6 @@ RUN npm install websocket ws
 USER ${USER}
 WORKDIR ${HOME}
 #### Define default command.
-ENTRYPOINT ["/docker-entrypoint.sh"]
+#ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
 
