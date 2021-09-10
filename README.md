@@ -244,7 +244,7 @@ If you want to map to different directory for certificates, e.g., /home/develope
 
 # Releases information
 ```
-developer@user1-desktop:~$ /usr/scripts/printVersions.sh 
+developer@galactica:~$ /usr/scripts/printVersions.sh 
 + echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 + whereis java
@@ -260,7 +260,7 @@ Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)
 Maven home: /usr/apache-maven-3.8.2
 Java version: 11.0.11, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
 Default locale: en, platform encoding: UTF-8
-OS name: "linux", version: "5.11.0-27-generic", arch: "amd64", family: "unix"
+OS name: "linux", version: "5.11.0-34-generic", arch: "amd64", family: "unix"
 + python -V
 /usr/scripts/printVersions.sh: line 8: python: command not found
 + python3 -V
@@ -293,22 +293,22 @@ Kotlin:       1.4.31
 Groovy:       3.0.7
 Ant:          Apache Ant(TM) version 1.10.9 compiled on September 27 2020
 JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.04)
-OS:           Linux 5.11.0-27-generic amd64
+OS:           Linux 5.11.0-34-generic amd64
 
 + npm -v
-7.21.0
+7.23.0
 + node -v
-v16.7.0
+v16.9.0
 + cat /etc/lsb-release /etc/os-release
 DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=20.04
 DISTRIB_CODENAME=focal
-DISTRIB_DESCRIPTION="Ubuntu 20.04.2 LTS"
+DISTRIB_DESCRIPTION="Ubuntu 20.04.3 LTS"
 NAME="Ubuntu"
-VERSION="20.04.2 LTS (Focal Fossa)"
+VERSION="20.04.3 LTS (Focal Fossa)"
 ID=ubuntu
 ID_LIKE=debian
-PRETTY_NAME="Ubuntu 20.04.2 LTS"
+PRETTY_NAME="Ubuntu 20.04.3 LTS"
 VERSION_ID="20.04"
 HOME_URL="https://www.ubuntu.com/"
 SUPPORT_URL="https://help.ubuntu.com/"
@@ -320,14 +320,14 @@ UBUNTU_CODENAME=focal
 
 ## Python3 PIP Modules
 ```
-developer@user1-desktop:~$ pip freeze
-argon2-cffi==20.1.0
+developer@galactica:~$ pip freeze
+argon2-cffi==21.1.0
 atomicwrites==1.1.5
 attrs==21.2.0
 backcall==0.2.0
 backports.entry-points-selectable==1.1.0
 beautifulsoup4==4.8.2
-bleach==4.0.0
+bleach==4.1.0
 certifi==2021.5.30
 cffi==1.14.6
 chardet==3.0.4
@@ -335,7 +335,7 @@ charset-normalizer==2.0.4
 cloudpickle==1.6.0
 cycler==0.10.0
 dbus-python==1.2.16
-debugpy==1.4.1
+debugpy==1.4.3
 decorator==5.0.9
 defusedxml==0.7.1
 distlib==0.3.2
@@ -347,15 +347,15 @@ funcy==1.16
 future==0.18.2
 greenlet==1.1.1
 html5lib==1.0.1
-httpie==2.4.0
+httpie==2.5.0
 hyperopt==0.2.5
 idna==3.2
 importlib-metadata==1.5.0
 ipaddress==1.0.23
-ipykernel==6.2.0
-ipython==7.26.0
+ipykernel==6.4.0
+ipython==7.27.0
 ipython-genutils==0.2.0
-ipywidgets==7.6.3
+ipywidgets==7.6.4
 j2cli==0.3.10
 jdcal==1.0
 jedi==0.18.0
@@ -364,23 +364,23 @@ joblib==1.0.1
 json-lines==0.5.0
 jsonschema==3.2.0
 jupyter==1.0.0
-jupyter-client==7.0.1
+jupyter-client==7.0.2
 jupyter-console==6.4.0
 jupyter-core==4.7.1
 jupyterlab-pygments==0.1.2
-jupyterlab-widgets==1.0.0
-kiwisolver==1.3.1
+jupyterlab-widgets==1.0.1
+kiwisolver==1.3.2
 lxml==4.5.0
 MarkupSafe==2.0.1
 matplotlib==3.3.4
-matplotlib-inline==0.1.2
+matplotlib-inline==0.1.3
 mistune==0.8.4
 more-itertools==4.2.0
 nbclient==0.5.4
 nbconvert==6.1.0
 nbformat==5.1.3
 nest-asyncio==1.5.1
-networkx==2.6.2
+networkx==2.6.3
 notebook==6.4.3
 numexpr==2.7.3
 numpy==1.21.2
@@ -395,9 +395,9 @@ parso==0.8.2
 pbr==5.6.0
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==8.3.1
+Pillow==8.3.2
 pkgconfig==1.5.5
-platformdirs==2.2.0
+platformdirs==2.3.0
 pluggy==0.13.0
 prometheus-client==0.11.0
 prompt-toolkit==3.0.20
@@ -412,14 +412,14 @@ pyparsing==2.4.7
 pyrsistent==0.18.0
 PySocks==1.7.1
 pytest==4.6.9
-python-apt==2.0.0+ubuntu0.20.4.5
+python-apt==2.0.0+ubuntu0.20.4.6
 python-dateutil==2.5.2
 python-git==2018.2.1
 pytz==2021.1
 PyYAML==3.11
 pyzmq==22.2.1
 qtconsole==5.1.1
-QtPy==1.10.0
+QtPy==1.11.0
 requests==2.26.0
 requests-toolbelt==0.9.1
 requests-unixsocket==0.2.0
@@ -432,16 +432,16 @@ soupsieve==1.9.5
 SQLAlchemy==1.4.23
 stevedore==3.4.0
 tables==3.6.1
-terminado==0.11.1
+terminado==0.12.1
 testpath==0.5.0
 threadpoolctl==2.2.0
 tornado==6.1
 tqdm==4.62.2
-traitlets==5.0.5
+traitlets==5.1.0
 unattended-upgrades==0.1
 urllib3==1.26.6
 virtualenv==20.7.2
-virtualenv-clone==0.5.6
+virtualenv-clone==0.5.7
 virtualenvwrapper==4.8.4
 wcwidth==0.2.5
 webencodings==0.5.1
