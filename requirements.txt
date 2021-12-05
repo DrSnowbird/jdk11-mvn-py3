@@ -39,3 +39,7 @@ virtualenvwrapper
 ipykernel
 jupyter
 
+# RDF tools
+rdflib
+sparqlwrapper
+pyLODE

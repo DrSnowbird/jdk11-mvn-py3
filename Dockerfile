@@ -78,8 +78,6 @@ ENV PATH=$JAVA_HOME/bin:$PATH
 # ------------------
 # OpenJDK Java:
 # ------------------
-
-
 ARG OPENJDK_PACKAGE=${OPENJDK_PACKAGE:-openjdk-${JAVA_VERSION}-jdk}
 
 # -- To install JDK Source (src.zip), uncomment the line below: --
@@ -103,7 +101,7 @@ RUN update-alternatives --get-selections | awk -v home="$(readlink -f "$JAVA_HOM
 ###################################
 #### ---- Install Maven 3 ---- ####
 ###################################
-ARG MAVEN_VERSION=${MAVEN_VERSION:-3.8.2}
+ARG MAVEN_VERSION=${MAVEN_VERSION:-3.8.4}
 ENV MAVEN_VERSION=${MAVEN_VERSION}
 ENV MAVEN_HOME=/usr/apache-maven-${MAVEN_VERSION}
 ENV PATH=${PATH}:${MAVEN_HOME}/bin
@@ -137,7 +135,7 @@ RUN mvn --version && \
 # Ref: https://gradle.org/releases/
 
 ARG GRADLE_INSTALL_BASE=${GRADLE_INSTALL_BASE:-/opt/gradle}
-ARG GRADLE_VERSION=${GRADLE_VERSION:-7.1}
+ARG GRADLE_VERSION=${GRADLE_VERSION:-7.3.1}
 
 ARG GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION}
 ENV GRADLE_HOME=${GRADLE_HOME}
