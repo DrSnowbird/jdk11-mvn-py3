@@ -43,6 +43,11 @@ echo
 echo ".... Starting websocket echo server ....."
 echo
 
-./run.sh node ${SCRIPT_FILE}
+docker run --rm --name ${instanceName} -v $PWD/examples:/data -p ${HOST_PORT}:${SERVER_PORT} --workdir /data ${imageTag} node /data/$(basename ${SCRIPT_FILE})
+
+
+
+
+#./run.sh node ${SCRIPT_FILE}
 #./run.sh node /home/developer/data/examples/ws-echo-server.js
 

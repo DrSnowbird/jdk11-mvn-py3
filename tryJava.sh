@@ -34,13 +34,13 @@ djava='docker run -it --rm -v '$PWD'/data:/data --workdir /data '${imageTag}' ja
 echo
 echo "----------------------------------------------------------------------"
 echo "1.) Compile HelloWorld.java in Guest's workdir /data: "
-echo "docker run -it --rm -v $PWD/data:/data --workdir /data openkbs/jdk-mvn-py3 javac HelloWorld.java"
+echo "docker run -it --rm -v $PWD/data:/data --workdir /data ${imageTag} javac HelloWorld.java"
 $djavac HelloWorld.java
 
 echo
 echo "----------------------------------------------------------------------"
 echo "2.) Run HelloWorld.class in Guest's workdir /data: "
-echo "docker run -it --rm -v $PWD/data:/data --workdir /data openkbs/jdk-mvn-py3 java HelloWorld"
+echo "docker run -it --rm -v $PWD/data:/data --workdir /data ${imageTag} java HelloWorld"
 $djava HelloWorld
 
 
