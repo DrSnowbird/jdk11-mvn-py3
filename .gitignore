@@ -8,7 +8,7 @@ data/
 *.log
 npm-debug.log*
 node_modules
-.env
+#.env
 
 *.pem
 *.crt
