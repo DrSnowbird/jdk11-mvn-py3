@@ -165,7 +165,6 @@ RUN apt-get update -y && \
     
 RUN cd ${SCRIPT_DIR}; ${SCRIPT_DIR}/setup_npm_proxy.sh
 
-RUN npm install websocket
 ###################################
 #### ---- user: developer ---- ####
 ###################################
