@@ -126,8 +126,9 @@ function cloneProject() {
         mv ${DEST_PROJ_DIR}/Dockerfile.child.template ${DEST_PROJ_DIR}/Dockerfile
         sed -i ${SED_MAC_FIX} "s#{{PARENT_CONTAINER}}#$PARENT_CONTAINER#g" ${DEST_PROJ_DIR}/Dockerfile
     else
-        echo -e "--- INFO: Can't find template child Dockerfile: ${DEST_PROJ_DIR}/Dockerfile.child.template!"
-        echo -e "--- INFO: Instead, use the parent Dockerfile as source."
+        echo -e ">>> WARNING =================================================================================="
+        echo -e ">>> WARNING: Can't find template child Dockerfile: ${DEST_PROJ_DIR}/Dockerfile.child.template!"
+        echo -e ">>> WARNING: Instead, use the parent Dockerfile as source."
     fi
     ## ----------------------------------------------------------
     ## -- Remove .git: --
