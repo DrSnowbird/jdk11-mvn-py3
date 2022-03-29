@@ -130,7 +130,7 @@ TEMPLATE_FILE_PATH=$1
 echo "## ---- check the exsitence of template file: ${TEMPLATE_FILE_PATH}"
 if [ ! -s "${TEMPLATE_FILE_PATH}" ]; then
     echo "*** ERROR: Template file: ${TEMPLATE_FILE_PATH} not found! Abort"
-    exit 1
+    exit 0
 else
     echo "--- OK: Template file: ${TEMPLATE_FILE_PATH} found! Continue ..."
 fi
