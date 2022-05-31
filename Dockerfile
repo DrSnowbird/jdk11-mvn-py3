@@ -19,15 +19,20 @@ ENV JAVA_VERSION=11
 ENV INSTALL_DIR=${INSTALL_DIR:-/usr}
 ENV SCRIPT_DIR=${SCRIPT_DIR:-$INSTALL_DIR/scripts}
 
-##############################################
-#### ---- Corporate Proxy Auto Setup ---- ####
-##############################################
-#### ---- Transfer setup ---- ####
+############################################
+##### ---- System: certificates : ---- #####
+##### ---- Corporate Proxy      : ---- #####
+############################################
+ENV LANG C.UTF-8
+ARG LIB_BASIC_LIST="curl wget unzip ca-certificates"
+RUN set -eux; \
+    apt-get update -y && \
+    apt-get install -y ${LIB_BASIC_LIST} 
+    
 COPY ./scripts ${SCRIPT_DIR}
-RUN chmod +x ${SCRIPT_DIR}/*.sh
-
-#### ---- Apt Proxy & NPM Proxy & NPM Permission setup if detected: ---- ####
-#RUN cd ${SCRIPT_DIR}; ${SCRIPT_DIR}/setup_system_proxy.sh
+COPY certificates /certificates
+RUN ${SCRIPT_DIR}/setup_system_certificates.sh
+RUN ${SCRIPT_DIR}/setup_system_proxy.sh
 
 ########################################
 #### update ubuntu and Install Python 3
@@ -101,15 +106,22 @@ RUN update-alternatives --get-selections | awk -v home="$(readlink -f "$JAVA_HOM
 ###################################
 #### ---- Install Maven 3 ---- ####
 ###################################
-ARG MAVEN_VERSION=${MAVEN_VERSION:-3.8.4}
-ENV MAVEN_VERSION=${MAVEN_VERSION}
+ENV MAVEN_VERSION=${MAVEN_VERSION:-3.8.5}
 ENV MAVEN_HOME=/usr/apache-maven-${MAVEN_VERSION}
+ENV MAVEN_PACKAGE=apache-maven-${MAVEN_VERSION}-bin.tar.gz
 ENV PATH=${PATH}:${MAVEN_HOME}/bin
-# curl -sL http://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
-RUN MAVEN_PACKAGE_URL=$(curl -s -k https://maven.apache.org/download.cgi | grep "apache-maven.*bin.tar.gz" | head -1|cut -d'"' -f2) && \
-    curl -sL ${MAVEN_PACKAGE_URL} | gunzip | tar x -C /usr/ && \
-    ln -s ${MAVEN_HOME} /usr/maven
-    
+## -- Auto tracking (by parsing product release page) the latest release -- ##
+# https://dlcdn.apache.org/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz
+RUN export MAVEN_PACKAGE_URL=$(curl -s https://maven.apache.org/download.cgi | grep -e "apache-maven.*bin.tar.gz" | head -1|cut -d'"' -f2) && \
+    export MAVEN_PACKAGE=$(basename $MAVEN_PACKAGE_URL) && \
+    export MAVEN_VERSION=$(echo ${MAVEN_PACKAGE}|cut -d'-' -f3) && \
+    export MAVEN_HOME=/usr/apache-maven-${MAVEN_VERSION} && \
+    export PATH=${PATH}:${MAVEN_HOME}/bin && \
+    curl -k -sL ${MAVEN_PACKAGE_URL} | gunzip | tar x -C /usr/ && \
+    ln -s ${MAVEN_HOME}/bin/mvn /usr/bin/mvn && \
+    ${MAVEN_HOME}/bin/mvn -v && \
+    rm -f ${MAVEN_PACKAGE}
+
 ########################################
 #### ---- PIP install packages ---- ####
 ########################################
@@ -136,23 +148,26 @@ RUN mvn --version && \
 
 ENV GRADLE_INSTALL_BASE=${GRADLE_INSTALL_BASE:-/opt/gradle}
 ENV GRADLE_VERSION=${GRADLE_VERSION:-7.4}
-ENV GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION}
 ENV GRADLE_PACKAGE=gradle-${GRADLE_VERSION}-bin.zip
 ENV GRADLE_PACKAGE_URL=https://services.gradle.org/distributions/${GRADLE_PACKAGE}
-
+ENV GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION}
+ENV PATH=${PATH}:${GRADLE_HOME}/bin
+# export GRADLE_PACKAGE_URL=$(curl -s https://gradle.org/releases/ | grep "Download: " | cut -d'"' -f4 | sort -u | tail -1) && \
+## -- Auto tracking (by parsing product release page) the latest release -- ##
 RUN mkdir -p ${GRADLE_INSTALL_BASE} && \
     cd ${GRADLE_INSTALL_BASE} && \
-    export GRADLE_VERSION=$(curl -s -k https://gradle.org/releases/ | grep "Download: " | head -1 | cut -d'-' -f2) && \
+    export GRADLE_PACKAGE_URL=$(curl -k -s https://gradle.org/releases/ | grep "Download: " | head -1 | cut -d'"' -f4) && \
+    export GRADLE_PACKAGE=$(basename ${GRADLE_PACKAGE_URL}) && \
+    export GRADLE_VERSION=$(echo $GRADLE_PACKAGE|cut -d'-' -f2) && \
     export GRADLE_HOME=${GRADLE_INSTALL_BASE}/gradle-${GRADLE_VERSION} && \
-    export GRADLE_PACKAGE_URL=$(curl -s -k https://gradle.org/releases/ | grep "Download: " | head -1 | cut -d'"' -f4) && \
-    export GRADLE_PACKAGE=gradle-${GRADLE_VERSION}-bin.zip && \
+    export PATH=${PATH}:${GRADLE_HOME}/bin && \
     wget -q --no-check-certificate -c ${GRADLE_PACKAGE_URL} && \
     unzip -d ${GRADLE_INSTALL_BASE} ${GRADLE_PACKAGE} && \
     ls -al ${GRADLE_HOME} && \
     ln -s ${GRADLE_HOME}/bin/gradle /usr/bin/gradle && \
     ${GRADLE_HOME}/bin/gradle -v && \
     rm -f ${GRADLE_PACKAGE}
-    
+
 #########################################
 #### ---- Node from NODESOURCES ---- ####
 #########################################

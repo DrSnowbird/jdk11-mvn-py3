@@ -244,71 +244,63 @@ If you want to map to different directory for certificates, e.g., /home/develope
 
 # Releases information
 ```
-developer@galactica:~$ /usr/scripts/printVersions.sh 
-+ echo JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-+ whereis java
 java: /usr/bin/java /usr/share/java /usr/lib/jvm/java-11-openjdk-amd64/bin/java /usr/share/man/man1/java.1.gz
-+ echo
 
-+ java -version
-openjdk version "11.0.11" 2021-04-20
-OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.20.04)
-OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
-+ mvn --version
-Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)
-Maven home: /usr/apache-maven-3.8.2
-Java version: 11.0.11, vendor: Ubuntu, runtime: /usr/lib/jvm/java-11-openjdk-amd64
+/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+openjdk version "11.0.15" 2022-04-19
+OpenJDK Runtime Environment (build 11.0.15+10-Ubuntu-0ubuntu0.20.04.1)
+OpenJDK 64-Bit Server VM (build 11.0.15+10-Ubuntu-0ubuntu0.20.04.1, mixed mode, sharing)
+/usr/bin/mvn
+Apache Maven 3.8.5 (3599d3414f046de2324203b78ddcf9b5e4388aa0)
+Maven home: /usr/apache-maven-3.8.5
+Java version: 11.0.15, vendor: Private Build, runtime: /usr/lib/jvm/java-11-openjdk-amd64
 Default locale: en, platform encoding: UTF-8
 OS name: "linux", version: "5.11.0-34-generic", arch: "amd64", family: "unix"
-+ python -V
-/usr/scripts/printVersions.sh: line 8: python: command not found
-+ python3 -V
+/usr/bin/python3
 Python 3.8.10
-+ pip --version
-pip 21.2.4 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
-+ pip3 --version
-pip 21.2.4 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
-+ gradle --version
+/usr/local/bin/pip
+pip 22.1.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+/usr/local/bin/pip3
+pip 22.1.1 from /usr/local/lib/python3.8/dist-packages/pip (python 3.8)
+/usr/bin/gradle
 
-Welcome to Gradle 7.0!
+Welcome to Gradle 7.4.2!
 
 Here are the highlights of this release:
- - File system watching enabled by default
- - Support for running with and building Java 16 projects
- - Native support for Apple Silicon processors
- - Dependency catalog feature preview
+ - Aggregated test and JaCoCo reports
+ - Marking additional test source directories as tests in IntelliJ
+ - Support for Adoptium JDKs in Java toolchains
 
-For more details see https://docs.gradle.org/7.0/release-notes.html
+For more details see https://docs.gradle.org/7.4.2/release-notes.html
 
 
 ------------------------------------------------------------
-Gradle 7.0
+Gradle 7.4.2
 ------------------------------------------------------------
 
-Build time:   2021-04-09 22:27:31 UTC
-Revision:     d5661e3f0e07a8caff705f1badf79fb5df8022c4
+Build time:   2022-03-31 15:25:29 UTC
+Revision:     540473b8118064efcc264694cbcaa4b677f61041
 
-Kotlin:       1.4.31
-Groovy:       3.0.7
-Ant:          Apache Ant(TM) version 1.10.9 compiled on September 27 2020
-JVM:          11.0.11 (Ubuntu 11.0.11+9-Ubuntu-0ubuntu2.20.04)
+Kotlin:       1.5.31
+Groovy:       3.0.9
+Ant:          Apache Ant(TM) version 1.10.11 compiled on July 10 2021
+JVM:          11.0.15 (Private Build 11.0.15+10-Ubuntu-0ubuntu0.20.04.1)
 OS:           Linux 5.11.0-34-generic amd64
 
-+ npm -v
-7.23.0
-+ node -v
-v16.9.0
-+ cat /etc/lsb-release /etc/os-release
+/usr/bin/npm
+8.11.0
+/usr/bin/node
+v18.2.0
 DISTRIB_ID=Ubuntu
 DISTRIB_RELEASE=20.04
 DISTRIB_CODENAME=focal
-DISTRIB_DESCRIPTION="Ubuntu 20.04.3 LTS"
+DISTRIB_DESCRIPTION="Ubuntu 20.04.4 LTS"
 NAME="Ubuntu"
-VERSION="20.04.3 LTS (Focal Fossa)"
+VERSION="20.04.4 LTS (Focal Fossa)"
 ID=ubuntu
 ID_LIKE=debian
-PRETTY_NAME="Ubuntu 20.04.3 LTS"
+PRETTY_NAME="Ubuntu 20.04.4 LTS"
 VERSION_ID="20.04"
 HOME_URL="https://www.ubuntu.com/"
 SUPPORT_URL="https://help.ubuntu.com/"
@@ -320,134 +312,151 @@ UBUNTU_CODENAME=focal
 
 ## Python3 PIP Modules
 ```
-developer@galactica:~$ pip freeze
-argon2-cffi==21.1.0
+argon2-cffi==21.3.0
+argon2-cffi-bindings==21.2.0
+asttokens==2.0.5
 atomicwrites==1.1.5
-attrs==21.2.0
+attrs==21.4.0
 backcall==0.2.0
-backports.entry-points-selectable==1.1.0
-beautifulsoup4==4.8.2
-bleach==4.1.0
-certifi==2021.5.30
-cffi==1.14.6
+beautifulsoup4==4.11.1
+bleach==5.0.0
+certifi==2022.5.18.1
+cffi==1.15.0
 chardet==3.0.4
-charset-normalizer==2.0.4
-cloudpickle==1.6.0
-cycler==0.10.0
+charset-normalizer==2.0.12
+cloudpickle==2.1.0
+commonmark==0.9.1
+cycler==0.11.0
 dbus-python==1.2.16
-debugpy==1.4.3
-decorator==5.0.9
+debugpy==1.6.0
+decorator==5.1.1
 defusedxml==0.7.1
-distlib==0.3.2
+distlib==0.3.4
 distro-info===0.23ubuntu1
-entrypoints==0.3
+dominate==2.6.0
+entrypoints==0.4
 et-xmlfile==1.0.1
-filelock==3.0.12
-funcy==1.16
+executing==0.8.3
+fastjsonschema==2.15.3
+filelock==3.7.0
+funcy==1.17
 future==0.18.2
-greenlet==1.1.1
+greenlet==1.1.2
 html5lib==1.0.1
-httpie==2.5.0
-hyperopt==0.2.5
-idna==3.2
-importlib-metadata==1.5.0
+httpie==3.2.1
+hyperopt==0.2.7
+idna==3.3
+importlib-metadata==4.11.4
+importlib-resources==5.7.1
 ipaddress==1.0.23
-ipykernel==6.4.0
-ipython==7.27.0
+ipykernel==6.13.0
+ipython==8.4.0
 ipython-genutils==0.2.0
-ipywidgets==7.6.4
+ipywidgets==7.7.0
+isodate==0.6.1
 j2cli==0.3.10
 jdcal==1.0
-jedi==0.18.0
-Jinja2==3.0.1
-joblib==1.0.1
+jedi==0.18.1
+Jinja2==3.1.2
+joblib==1.1.0
 json-lines==0.5.0
-jsonschema==3.2.0
+jsonschema==4.5.1
 jupyter==1.0.0
-jupyter-client==7.0.2
-jupyter-console==6.4.0
-jupyter-core==4.7.1
-jupyterlab-pygments==0.1.2
-jupyterlab-widgets==1.0.1
-kiwisolver==1.3.2
+jupyter-client==7.2.0
+jupyter-console==6.4.3
+jupyter-core==4.10.0
+jupyterlab-pygments==0.2.2
+jupyterlab-widgets==1.1.0
+kiwisolver==1.4.2
 lxml==4.5.0
-MarkupSafe==2.0.1
+Markdown==3.3.7
+MarkupSafe==2.1.1
 matplotlib==3.3.4
 matplotlib-inline==0.1.3
 mistune==0.8.4
 more-itertools==4.2.0
-nbclient==0.5.4
-nbconvert==6.1.0
-nbformat==5.1.3
-nest-asyncio==1.5.1
-networkx==2.6.3
-notebook==6.4.3
-numexpr==2.7.3
-numpy==1.21.2
+multidict==6.0.2
+nbclient==0.6.3
+nbconvert==6.5.0
+nbformat==5.4.0
+nest-asyncio==1.5.5
+networkx==2.8.2
+notebook==6.4.11
+numexpr==2.8.1
+numpy==1.22.4
 olefile==0.46
 openpyxl==3.0.3
-packaging==21.0
+packaging==21.3
 panda==0.3.1
 pandas==0.24.2
 pandasql==0.7.3
-pandocfilters==1.4.3
-parso==0.8.2
-pbr==5.6.0
+pandocfilters==1.5.0
+parso==0.8.3
+pbr==5.9.0
 pexpect==4.8.0
 pickleshare==0.7.5
-Pillow==8.3.2
+Pillow==9.1.1
 pkgconfig==1.5.5
-platformdirs==2.3.0
+platformdirs==2.5.2
 pluggy==0.13.0
-prometheus-client==0.11.0
-prompt-toolkit==3.0.20
+prometheus-client==0.14.1
+prompt-toolkit==3.0.29
+psutil==5.9.1
 ptyprocess==0.7.0
+pure-eval==0.2.2
 py==1.8.1
-pycparser==2.20
+py4j==0.10.9.5
+pycparser==2.21
 pydot==1.4.2
-Pygments==2.10.0
+Pygments==2.12.0
 PyGObject==3.36.0
 pyLDAvis==3.2.2
-pyparsing==2.4.7
-pyrsistent==0.18.0
+pyLODE==3.0.1
+pyparsing==3.0.9
+pyrsistent==0.18.1
 PySocks==1.7.1
 pytest==4.6.9
-python-apt==2.0.0+ubuntu0.20.4.6
+python-apt==2.0.0+ubuntu0.20.4.7
 python-dateutil==2.5.2
 python-git==2018.2.1
-pytz==2021.1
+pytz==2022.1
 PyYAML==3.11
-pyzmq==22.2.1
-qtconsole==5.1.1
-QtPy==1.11.0
-requests==2.26.0
+pyzmq==23.0.0
+qtconsole==5.3.0
+QtPy==2.1.0
+rdflib==6.1.1
+requests==2.27.1
 requests-toolbelt==0.9.1
 requests-unixsocket==0.2.0
-scikit-learn==0.24.2
-scipy==1.7.1
+rich==12.4.4
+scikit-learn==1.1.1
+scipy==1.8.1
 seaborn==0.11.2
 Send2Trash==1.8.0
 six==1.16.0
-soupsieve==1.9.5
-SQLAlchemy==1.4.23
-stevedore==3.4.0
+soupsieve==2.3.2.post1
+SPARQLWrapper==2.0.0
+SQLAlchemy==1.4.36
+stack-data==0.2.0
+stevedore==3.5.0
 tables==3.6.1
-terminado==0.12.1
-testpath==0.5.0
-threadpoolctl==2.2.0
+terminado==0.15.0
+threadpoolctl==3.1.0
+tinycss2==1.1.1
 tornado==6.1
-tqdm==4.62.2
-traitlets==5.1.0
+tqdm==4.64.0
+traitlets==5.2.1.post0
+typing_extensions==4.2.0
 unattended-upgrades==0.1
-urllib3==1.26.6
-virtualenv==20.7.2
+urllib3==1.26.9
+virtualenv==20.14.1
 virtualenv-clone==0.5.7
 virtualenvwrapper==4.8.4
 wcwidth==0.2.5
 webencodings==0.5.1
-widgetsnbextension==3.5.1
+widgetsnbextension==3.6.0
 xlrd==1.1.0
 xlwt==1.3.0
 yml2json==1.1.3
-zipp==1.0.0
+zipp==3.8.0
 ```
